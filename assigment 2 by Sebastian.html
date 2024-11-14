@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>MDIA 2294</title>
+	
+	<style>	    
+	    img {
+	        margin:5px;
+	    }
+	    
+	    img.clickable{
+	        cursor:pointer;
+	    }
+	
+	</style>
+	
+</head>
+<body>
+
+	<h1>MDIA 2294: Assignment 2</h1>
+	
+	<div style="text-align:center;">
+	    <table>
+	        <tr>
+	            <td></td>
+	            <td style="text-align:center;">
+                    <div><img id="main-image" alt="Main Image" /></div>
+
+                    <!-- you may or may not use this hidden textbox-->
+                     <!--<div><input id="current-index" /></div> -->   
+                </td>
+	            <td></td>
+	        
+	        </tr>
+	        <tr>
+	            <td>
+	                <img src="images/first.png" id="first-btn" />            
+	                <img src="images/prev.png" id="prev-btn" />
+	            </td>
+	            <td>
+	                <div id="thumbnail-area"></div>	        
+	            </td>
+	            <td>
+	                <img src="images/next.png" id="next-btn" />            
+	                <img src="images/last.png" id="last-btn" />
+	            </td>
+	        </tr>	    
+	    </table>       
+	</div>
+    
+	<script>
+
+		//MDIA 2294: Assignment 2, Sebastian Quiroz Malca Alva, A01302075
+
+		//Creating Array for slideshow
+
+		//Creating index for slide in slideshow
+
+		let i = 0;
+
+    const image_root_names = ["fish 1", "fish 2", "fish 3", "fish 4", "fish 5" , "fish 6"];
+
+		//setting the main image as passed 0 
+
+		const first_load = () => { 
+
+			document.querySelector("#main-image").src = "images/" + image_root_names[0] + ".jpg";
+	
+		}
+
+		//setting the main image as index
+		//calling update_thumbnails with the same index passed
+	
+		const set_main_image = (index) => {
+
+
+			document.querySelector("#main-image").src = "images/" + image_root_names[index] + ".jpg";
+
+
+
+			update_thumbnails(index);
+		}
+	
+		//creating the strip with a for loop and setting the thumbnails
+
+		const set_thumbnails = () => {
+	
+
+			image_root_names.forEach( (image_name, index) => {
+
+			const new_thumb = document.createElement("img");
+
+			new_thumb.src = "images/" + image_name + " thumb.jpg";
+
+			new_thumb.className = "clickable";
+
+			new_thumb.addEventListener("click", () => {
+
+	set_main_image(index);
+
+});
+
+document.querySelector("#thumbnail-area").append(new_thumb);
+
+});
+	
+		} 
+
+		//setting the opacity for each image clicked
+	
+		const update_thumbnails = (current_index) => {
+
+
+			const thumbnails = document.querySelectorAll("#thumbnail-area img");
+    thumbnails.forEach((thumb, index) => {
+        thumb.style.opacity = index === current_index ? "2.0" : "0.15";
+    });
+
+		} 
+
+		//setting main image as zero
+	
+		const set_nav_first = () => {
+			set_main_image(0);
+			
+		}
+	
+		//setting main image with length of array -1
+
+		const set_nav_last = () => {
+			set_main_image(image_root_names.length - 1);
+		}
+
+		//set main image with the new index
+	
+		const set_nav_next = () => {
+		
+			i++;
+				if (i > image_root_names.length - 1) {
+
+					i = 0;
+		
+				}
+
+    set_main_image(i);
+			
+		}
+
+		//same thing just decreasing
+	
+		const set_nav_prev = () => {
+			i--;
+
+if (i < 0) {
+
+	i = image_root_names.length - 1;
+
+}
+	set_main_image(i);
+		}	
+
+		//window load
+	
+		window.addEventListener("load", () => {
+			
+			first_load();
+		
+			set_thumbnails();
+		
+			document.querySelector("#first-btn").addEventListener("click", set_nav_first);
+			document.querySelector("#last-btn").addEventListener("click", set_nav_last);
+			document.querySelector("#next-btn").addEventListener("click", set_nav_next);
+			document.querySelector("#prev-btn").addEventListener("click", set_nav_prev);
+
+		});
+
+
+	</script>
+	
+</body>
+</html>
